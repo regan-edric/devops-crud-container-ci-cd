@@ -169,7 +169,7 @@ function App() {
         </div>
 
         <div className="table-container">
-          <h2>List Mahasiswa</h2>
+          <h2>Daftar Mahasiswa</h2>
           {loading && <p>Loading...</p>}
           <table>
             <thead>
