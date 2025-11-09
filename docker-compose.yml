@@ -21,11 +21,9 @@ services:
       timeout: 5s
       retries: 5
 
-  # Backend API
+  # Backend pakai image dari Docker Hub
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: reganid/mahasiswa-backend:latest
     container_name: mahasiswa-backend
     restart: always
     environment:
@@ -43,11 +41,9 @@ services:
     networks:
       - mahasiswa-network
 
-  # Frontend React
+  # Frontend pakai image dari Docker Hub
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    image: reganid/mahasiswa-frontend:latest
     container_name: mahasiswa-frontend
     restart: always
     ports:
@@ -56,6 +52,19 @@ services:
       - backend
     networks:
       - mahasiswa-network
+
+  # 🟡 Watchtower Service (pemantau image)
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_CLEANUP=true # hapus image lama otomatis
+      - WATCHTOWER_POLL_INTERVAL=60 # cek update tiap 60 detik
+      - WATCHTOWER_INCLUDE_STOPPED=true # monitor semua container
+      - WATCHTOWER_DEBUG=false
 
 volumes:
   postgres_data:
