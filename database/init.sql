@@ -12,7 +12,8 @@ CREATE TABLE IF NOT EXISTS mahasiswa (
 INSERT INTO mahasiswa (nim, nama, jurusan, angkatan) VALUES
     ('2021001', 'Budi Santoso', 'Teknik Informatika', '2021'),
     ('2021002', 'Ani Wijaya', 'Sistem Informasi', '2021'),
-    ('2022001', 'Citra Dewi', 'Teknik Komputer', '2022')
+    ('2022001', 'Citra Dewi', 'Teknik Komputer', '2022'),
+    ('221110891', 'Regan Edric Onggatta', 'Teknik Informatika', '2022')
 ON CONFLICT (nim) DO NOTHING;
 
 -- Create index for faster queries
