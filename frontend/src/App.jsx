@@ -96,7 +96,7 @@ function App() {
   return (
     <div className="App">
       <div className="container">
-        <h1>📚 Data Mahasiswa</h1>
+        <h1>📚Daftar Data Mahasiswa</h1>
 
         {error && <div className="error-message">{error}</div>}
 
