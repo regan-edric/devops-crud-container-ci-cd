@@ -65,6 +65,8 @@ services:
       - WATCHTOWER_POLL_INTERVAL=60 # cek update tiap 60 detik
       - WATCHTOWER_INCLUDE_STOPPED=true # monitor semua container
       - WATCHTOWER_DEBUG=false
+    networks:
+      - mahasiswa-network
 
 volumes:
   postgres_data:
