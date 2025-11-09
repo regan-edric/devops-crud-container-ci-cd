@@ -82,7 +82,7 @@ jobs:
           context: ./backend
           file: ./backend/Dockerfile
           push: true
-          tags: docker.io/${{ secrets.DOCKER_USERNAME }}/mahasiswa-backend:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/mahasiswa-backend:latest
 
       - name: Build and push Frontend image
         uses: docker/build-push-action@v4
@@ -90,7 +90,7 @@ jobs:
           context: ./frontend
           file: ./frontend/Dockerfile
           push: true
-          tags: docker.io/${{ secrets.DOCKER_USERNAME }}/mahasiswa-frontend:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/mahasiswa-frontend:latest
 
   # Job 4: Deploy (Optional - jika punya server)
   deploy:
