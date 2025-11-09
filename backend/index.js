@@ -65,6 +65,30 @@ app.get("/api/mahasiswa/:id", async (req, res) => {
   }
 });
 
+// CREATE new mahasiswa
+app.post("/api/mahasiswa", async (req, res) => {
+  try {
+    const { nim, nama, jurusan, angkatan } = req.body;
+
+    if (!nim || !nama || !jurusan || !angkatan) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
+
+    const result = await pool.query(
+      "INSERT INTO mahasiswa (nim, nama, jurusan, angkatan) VALUES ($1, $2, $3, $4) RETURNING *",
+      [nim, nama, jurusan, angkatan]
+    );
+
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    if (err.code === "23505") {
+      return res.status(400).json({ error: "NIM already exists" });
+    }
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 // UPDATE mahasiswa
 app.put("/api/mahasiswa/:id", async (req, res) => {
   try {
@@ -112,5 +136,5 @@ app.delete("/api/mahasiswa/:id", async (req, res) => {
 });
 
 app.listen(port, "0.0.0.0", () => {
-  console.log(Server running on port ${port});
+  console.log(Server running on port ${port});
 });
