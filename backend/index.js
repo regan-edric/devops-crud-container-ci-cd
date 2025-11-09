@@ -88,7 +88,6 @@ app.post("/api/mahasiswa", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
-
 // UPDATE mahasiswa
 app.put("/api/mahasiswa/:id", async (req, res) => {
   try {
