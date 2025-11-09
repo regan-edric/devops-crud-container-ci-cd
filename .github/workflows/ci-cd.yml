@@ -28,8 +28,7 @@ jobs:
         working-directory: ./backend
         run: |
           echo "Backend code validation passed"
-          node -vdocker logs mahasiswa-backend
-
+          node -v
           npm -v
 
   # Job 2: Build and Test Frontend
