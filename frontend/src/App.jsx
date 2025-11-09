@@ -96,7 +96,7 @@ function App() {
   return (
     <div className="App">
       <div className="container">
-        <h1>📚 List Data Mahasiswa</h1>
+        <h1>📚 Data Mahasiswa</h1>
 
         {error && <div className="error-message">{error}</div>}
 
@@ -169,7 +169,7 @@ function App() {
         </div>
 
         <div className="table-container">
-          <h2>List Mahasiswa yang Daftar</h2>
+          <h2>List Mahasiswa</h2>
           {loading && <p>Loading...</p>}
           <table>
             <thead>

@@ -23,7 +23,7 @@ services:
 
   # Backend pakai image dari Docker Hub
   backend:
-    image: reganid/mahasiswa-backend:latest
+    image: reganedric221110891/mahasiswa-backend:latest
     container_name: mahasiswa-backend
     restart: always
     environment:
@@ -43,7 +43,7 @@ services:
 
   # Frontend pakai image dari Docker Hub
   frontend:
-    image: reganid/mahasiswa-frontend:latest
+    image: reganedric221110891/mahasiswa-frontend:latest
     container_name: mahasiswa-frontend
     restart: always
     ports:
