@@ -1,16 +1,65 @@
 const express = require("express");
 const cors = require("cors");
 const { Pool } = require("pg");
+const client = require("prom-client");
 require("dotenv").config();
 
 const app = express();
 const port = process.env.PORT || 5000;
 
+// Prometheus metrics
+const register = new client.Registry();
+client.collectDefaultMetrics({ register });
+
+// Custom metrics
+const httpRequestCounter = new client.Counter({
+  name: "http_requests_total",
+  help: "Total HTTP requests",
+  labelNames: ["method", "route", "status"],
+});
+
+const httpRequestDuration = new client.Histogram({
+  name: "http_request_duration_seconds",
+  help: "Duration of HTTP requests in seconds",
+  labelNames: ["method", "route", "status"],
+});
+
+const dbQueryCounter = new client.Counter({
+  name: "db_queries_total",
+  help: "Total database queries",
+  labelNames: ["operation"],
+});
+
+register.registerMetric(httpRequestCounter);
+register.registerMetric(httpRequestDuration);
+register.registerMetric(dbQueryCounter);
+
 // Middleware
 app.use(cors());
 app.use(express.json());
 
-// Database connection
+// Metrics middleware
+app.use((req, res, next) => {
+  const start = Date.now();
+  res.on("finish", () => {
+    const duration = (Date.now() - start) / 1000;
+    httpRequestCounter
+      .labels(req.method, req.route?.path || req.path, res.statusCode)
+      .inc();
+    httpRequestDuration
+      .labels(req.method, req.route?.path || req.path, res.statusCode)
+      .observe(duration);
+  });
+  next();
+});
+
+// Metrics endpoint
+app.get("/metrics", async (req, res) => {
+  res.set("Content-Type", register.contentType);
+  res.end(await register.metrics());
+});
+
+// Database connection (existing code)
 const pool = new Pool({
   host: process.env.DB_HOST || "localhost",
   port: process.env.DB_PORT || 5432,
